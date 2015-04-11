@@ -61,7 +61,9 @@ Domain names can server all aliases, for example using example.com will also all
 
 == Changelog ==
 
+= 0.2 =
+* Improved logic.
+
 = 0.1 =
 * First release.
-
 

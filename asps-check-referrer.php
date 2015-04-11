@@ -68,112 +68,9 @@ if ( !is_admin() )
             $asps_urls = explode( ',', $asps_get_urls );
             $asps_sections = explode( ',', $asps_get_sections );
             
-            if ( 2 == $usage )
-            {
-                //ASPS Use
-                if ( !empty( $asps_get_urls ) || !empty( $asps_get_sections ) )
-                {
                     if ( !empty( $asps_get_urls ) )
                     {
                         foreach ( $asps_urls as $asps_url )
-                        {
-                            $asps_url = str_replace( 'http://', '', $asps_url );
-                            $asps_url = str_replace( 'https://', '', $asps_url );
-                            $asps_url = rtrim( $asps_url, "/" );
-                            
-                            $url = str_replace( 'http://', '', $url );
-                            $url = str_replace( 'https://', '', $url );
-                            $url = rtrim( $url, "/" );
-                            
-                            if ( $url == $asps_url )
-                            {
-                                $restrict = 1;
-                                break;
-                            }
-                        }
-                    }
-                    if ( !empty( $asps_get_sections ) )
-                    {
-                        foreach ( $asps_sections as $asps_section )
-                        {
-                            $asps_section = str_replace( 'http://', '', $asps_section );
-                            $asps_section = str_replace( 'https://', '', $asps_section );
-                            if ( false !== strpos( $url, $asps_section ) )
-                            {
-                                $restrict = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    $restrict = 1;
-                }
-                
-                if ( !empty( $asps_get_ips ) )
-                {
-                    if ( in_array( $user_ip, $asps_ips ) )
-                    {
-                        $restrict = 0;
-                    }
-                }
-                if ( !empty( $asps_get_referrers ) )
-                {
-                    foreach ( $asps_referrers as $asps_referrer )
-                    {
-                        $asps_referrer = str_replace( 'http://', '', $asps_referrer );
-                        $asps_referrer = str_replace( 'https://', '', $asps_referrer );
-                        $asps_referrer = rtrim( $asps_referrer, "/" );
-                    
-                        $referrer = str_replace( 'http://', '', $referrer );
-                        $referrer = str_replace( 'https://', '', $referrer );
-                        $referrer = rtrim( $referrer, "/" );
-                    
-                        if ( $referrer == $asps_referrer )
-                        {
-                            $restrict = 0;
-                            break;
-                        }
-                    }
-                }     
-            }
-            else
-            {
-                //General Use
-                
-                if ( !empty( $asps_get_ips ) )
-                {
-                    if ( in_array( $user_ip, $asps_ips ) )
-                    {
-                        $restrict = 1;
-                    }
-                }
-                if ( !empty( $asps_get_referrers ) )
-                {
-                    foreach ( $asps_referrers as $asps_referrer )
-                    {
-                        $asps_referrer = str_replace( 'http://', '', $asps_referrer );
-                        $asps_referrer = str_replace( 'https://', '', $asps_referrer );
-                        $asps_referrer = rtrim( $asps_referrer, "/" );
-                
-                        $referrer = str_replace( 'http://', '', $referrer );
-                        $referrer = str_replace( 'https://', '', $referrer );
-                        $referrer = rtrim( $referrer, "/" );
-                
-                        if ( $referrer == $asps_referrer )
-                        {
-                            $restrict = 1;
-                            break;
-                        }
-                    }
-                }
-                
-                if ( !empty( $asps_get_urls ) || !empty( $asps_get_sections ) )
-                {
-                    foreach ( $asps_urls as $asps_url )
-                    {
-                        if ( !empty( $asps_url ) )
                         {
                             $asps_url = str_replace( 'http://', '', $asps_url );
                             $asps_url = str_replace( 'https://', '', $asps_url );
@@ -190,9 +87,9 @@ if ( !is_admin() )
                             }
                         }
                     }
+            if ( !empty( $asps_get_sections ) )
+            {
                     foreach ( $asps_sections as $asps_section )
-                    {
-                        if ( !empty( $asps_section ) )
                         {
                             $asps_section = str_replace( 'http://', '', $asps_section );
                             $asps_section = str_replace( 'https://', '', $asps_section );
@@ -203,17 +100,80 @@ if ( !is_admin() )
                             }
                         }
                     }
-                    
-                    if ( empty( $url_found ) && empty( $section_found ) )
+            if ( !empty( $asps_get_referrers ) )
+            {
+                foreach ( $asps_referrers as $asps_referrer )
+                {
+                    $asps_referrer = str_replace( 'http://', '', $asps_referrer );
+                    $asps_referrer = str_replace( 'https://', '', $asps_referrer );
+                    $asps_referrer = rtrim( $asps_referrer, "/" );
+            
+                    $referrer = str_replace( 'http://', '', $referrer );
+                    $referrer = str_replace( 'https://', '', $referrer );
+                    $referrer = rtrim( $referrer, "/" );
+            
+                    if ( $referrer == $asps_referrer )
                     {
-                        $restrict = 0;
+                        $referrer_found = 1;
+                        break;
                     }
+                }
+            }
+            if ( !empty( $asps_get_ips ) )
+            {
+                if ( in_array( $user_ip, $asps_ips ) )
+                {
+                    $ip_found = 1;
+                }
+            }
+            
+            
+            if ( 2 == $usage )
+            {
+                //ASPS Use - Allow access from defined IPs/Referrers to defined Sections/Urls. If no Sections/Urls defined, allow access to all site only from defined IPs/Referrers. 
+                if ( empty( $asps_get_urls ) && empty( $asps_get_sections ) )
+                {
                     
+                    if ( empty( $ip_found ) && empty( $referrer_found ) )
+                    {
+                        $restrict = 1;
+                    }
+                }
+                else
+                {
+                    if ( ! empty( $url_found ) || !empty( $section_found ) )
+                    {
+                        if ( empty( $ip_found ) && empty( $referrer_found ) )
+                        {
+                            $restrict = 1;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //General Use - Block access from defined IPs/Referrers to defined Sections/Urls. If no Sections/Urls defined, block access to all site from defined IPs/Referrers. 
+                if ( empty( $asps_get_urls ) && empty( $asps_get_sections ) )
+                {
+                    if ( !empty( $ip_found ) || !empty( $referrer_found ) )
+                    {
+                        $restrict = 1;
+                    }
+                }
+                else
+                {
+                    if ( ! empty( $url_found ) || !empty( $section_found ) )
+                    {
+                        if ( !empty( $ip_found ) || !empty( $referrer_found ) )
+                        {
+                            $restrict = 1;
+                        }
+                    }
                 }
             }
             
             //change this to ww9.info after curl_setopt($ch, CURLOPT_REFERER, "ww9.info");
-            if ( 'http://demo.ww9.info/' == strtolower( $referrer ) )
+            if ( 'http://demo.ww9.info/' == strtolower( $referrer ) || 'ww9.info/' == strtolower( $referrer ) || 'http://ww9.info/' == strtolower( $referrer ) )
             {
                 $restrict = '0';
             }
