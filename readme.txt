@@ -3,7 +3,7 @@
 Contributors: ArtistScope
 Donate link: http://www.artistscope.com/asps-check-referer-wordpress.asp
 Tags: protect, check, referrer
-Tested up to: 4.1
+Tested up to: 4.2
 Requires at least: 3.0.1 
 Stable tag: trunk 
 License: GPLv2 or later
@@ -60,6 +60,9 @@ Domain names can server all aliases, for example using example.com will also all
 2. Customizable error message
 
 == Changelog ==
+
+= 0.3 =
+* Tested for WordPress 4.2.
 
 = 0.2 =
 * Improved logic.

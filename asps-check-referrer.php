@@ -2,7 +2,7 @@
 /*
 Plugin Name: ASPS Check Referrer
 Plugin URI: http://www.artistscope.com/asps-check-referer-wordpress.asp
-Version: 0.1
+Version: 0.3
 Description: ASPS Check Referrer
 Author: ArtistScope
 Author URI: http://www.artistscope.com
