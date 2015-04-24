@@ -93,7 +93,7 @@ if ( !is_admin() )
                         {
                             $asps_section = str_replace( 'http://', '', $asps_section );
                             $asps_section = str_replace( 'https://', '', $asps_section );
-                            if ( false !== strpos( $url, $asps_section ) )
+                    if ( false !== strpos( $url, $asps_section ) || '/' == $asps_section )
                             {
                                 $section_found = 1;
                                 break;
@@ -131,15 +131,7 @@ if ( !is_admin() )
             if ( 2 == $usage )
             {
                 //ASPS Use - Allow access from defined IPs/Referrers to defined Sections/Urls. If no Sections/Urls defined, allow access to all site only from defined IPs/Referrers. 
-                if ( empty( $asps_get_urls ) && empty( $asps_get_sections ) )
-                {
-                    
-                    if ( empty( $ip_found ) && empty( $referrer_found ) )
-                    {
-                        $restrict = 1;
-                    }
-                }
-                else
+                if ( ! empty( $asps_get_urls ) || ! empty( $asps_get_sections ) )
                 {
                     if ( ! empty( $url_found ) || !empty( $section_found ) )
                     {

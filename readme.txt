@@ -48,8 +48,9 @@ Or you can nominate sections by using only part of the link like:
 * gallery
 * showcase
 * page_id
+* /
 
-If your website uses several different domain names you can make nominations that mention the page/section only.
+Nominating "/" will apply referrer check to your whole site. If your website uses several different domain names you can make nominations that mention the page/section only.
 
 Domain names can server all aliases, for example using example.com will also allow news.example.com.
 
@@ -63,6 +64,7 @@ Domain names can server all aliases, for example using example.com will also all
 
 = 0.3 =
 * Tested for WordPress 4.2.
+* Added key (/) for site root.
 
 = 0.2 =
 * Improved logic.
